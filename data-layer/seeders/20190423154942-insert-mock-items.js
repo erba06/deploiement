@@ -14,7 +14,7 @@ const items = [
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return process.env.INSERT_MOCK_ITEMS_SEEDER
-      ? queryInterface.bulkInsert('Items', itemsMock, {})
+      ? queryInterface.bulkInsert('Items', items, {})
       : Promise.resolve();
   },
 
@@ -23,7 +23,7 @@ module.exports = {
       ? queryInterface.bulkDelete(
           'Items',
           {
-            id: { [Sequelize.Op.in]: itemsMock.map(item => item.id) }
+            id: { [Sequelize.Op.in]: items.map(item => item.id) }
           },
           {}
         )
