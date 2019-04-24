@@ -13,16 +13,20 @@ const items = [
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Items', items, {});
+    return process.env.INSERT_MOCK_ITEMS_SEEDER
+      ? queryInterface.bulkInsert('Items', itemsMock, {})
+      : Promise.resolve();
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete(
-      'Items',
-      {
-        id: { [Sequelize.Op.in]: items.map(item => item.id) }
-      },
-      {}
-    );
+    return process.env.INSERT_MOCK_ITEMS_SEEDER
+      ? queryInterface.bulkDelete(
+          'Items',
+          {
+            id: { [Sequelize.Op.in]: itemsMock.map(item => item.id) }
+          },
+          {}
+        )
+      : Promise.resolve();
   }
 };
